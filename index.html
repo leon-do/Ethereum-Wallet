@@ -1,0 +1,64 @@
+<html>
+    <style>
+        input {
+            width: 50%;
+        }
+    </style>
+    <script src="./ethers.js"></script>
+    <pre>
+        <h2>Ethereum Wallet: Signing Raw Transactions</h2>
+        
+        Private Key  <input id="privateKey" value="0x0123456789012345678901234567890123456789012345678901234567890123">
+        
+        Nonce        <input id="nonce" value="0">
+        
+        Gas Limit    <input id="gasLimit" value="21000">
+        
+        Gas Price    <input id="gasPrice" value="20000000000">
+        
+        To Address   <input id="toAddress" value="0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290">
+
+        Amount       <input id="amount" value="1">
+
+        <button onclick="signTransaction()">Sign Transaction</button>
+
+        <hr>
+
+        Signed Transaction <div id="signedTransaction"></div>
+        
+    </pre>
+</html>
+
+
+<script>
+    // https://docs.ethers.io/ethers.js/html/api-wallet.html#id1
+    const Wallet = ethers.Wallet;
+    const utils = ethers.utils;
+    const providers = ethers.providers;
+
+    function signTransaction() {
+        const privateKey = document.getElementById('privateKey').value
+        const nonce = document.getElementById('nonce').value
+        const gasLimit = document.getElementById('gasLimit').value
+        const gasPrice = document.getElementById('gasPrice').value
+        const toAddress = document.getElementById('toAddress').value
+        const amount = document.getElementById('amount').value
+
+        const wallet = new Wallet(privateKey);
+
+        const transaction = {
+            nonce: Number(nonce),
+            gasLimit: Number(gasLimit),
+            gasPrice: utils.bigNumberify(gasPrice.toString()),
+            to: toAddress,
+            value: utils.parseEther(amount.toString()),
+            data: "0x",
+            chainId: providers.networks.homestead.chainId
+        };
+
+        const signedTransaction = wallet.sign(transaction);
+
+        document.getElementById('signedTransaction').innerHTML = signedTransaction
+    }
+
+</script>
