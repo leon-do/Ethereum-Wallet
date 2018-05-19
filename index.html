@@ -21,10 +21,12 @@
         Amount       <input id="amount" value="1">
 
         <button onclick="signTransaction()">Sign Transaction</button>
-
+        
         <hr>
 
-        Signed Transaction <div id="signedTransaction"></div>
+        https://etherscan.io/pushTx 
+
+        <div id="signedTransaction"></div>
         
     </pre>
 </html>
@@ -45,6 +47,7 @@
         const amount = document.getElementById('amount').value
 
         const wallet = new Wallet(privateKey);
+        console.log(wallet.address)
 
         const transaction = {
             nonce: Number(nonce),
